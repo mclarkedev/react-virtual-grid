@@ -60,14 +60,12 @@
     "uglifyify": "^3.0.3",
     "watchify": "^3.7.0"
   },
-  "peerDependencies": {
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2"
-  },
+  "peerDependencies": {},
   "dependencies": {
     "classnames": "^2.2.5",
     "element-resize-detector": "^1.1.9",
-    "iscroll": "github:zhm/iscroll#larger-scrollbars-with-pointer-events"
+    "iscroll": "github:zhm/iscroll#larger-scrollbars-with-pointer-events",
+    "react-proptypes": "^1.0.0"
   },
   "keywords": [
     "grid",
