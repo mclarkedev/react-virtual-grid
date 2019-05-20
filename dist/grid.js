@@ -10,6 +10,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactProptypes = require('react-proptypes');
+
+var _reactProptypes2 = _interopRequireDefault(_reactProptypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -903,47 +907,47 @@ var Grid = function (_React$Component) {
 }(_react2.default.Component);
 
 Grid.propTypes = {
-  preloadPixelsX: _react2.default.PropTypes.number,
+  preloadPixelsX: _reactProptypes2.default.number,
 
-  preloadPixelsY: _react2.default.PropTypes.number,
+  preloadPixelsY: _reactProptypes2.default.number,
 
-  estimatedRowHeight: _react2.default.PropTypes.number,
+  estimatedRowHeight: _reactProptypes2.default.number,
 
-  estimatedColumnWidth: _react2.default.PropTypes.number,
+  estimatedColumnWidth: _reactProptypes2.default.number,
 
-  columnCount: _react2.default.PropTypes.number.isRequired,
+  columnCount: _reactProptypes2.default.number.isRequired,
 
-  rowCount: _react2.default.PropTypes.number.isRequired,
+  rowCount: _reactProptypes2.default.number.isRequired,
 
-  fixedLeftColumnCount: _react2.default.PropTypes.number,
+  fixedLeftColumnCount: _reactProptypes2.default.number,
 
-  fixedRightColumnCount: _react2.default.PropTypes.number,
+  fixedRightColumnCount: _reactProptypes2.default.number,
 
-  fixedHeaderCount: _react2.default.PropTypes.number,
+  fixedHeaderCount: _reactProptypes2.default.number,
 
-  fixedFooterCount: _react2.default.PropTypes.number,
+  fixedFooterCount: _reactProptypes2.default.number,
 
-  columnWidth: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.number, _react2.default.PropTypes.func]),
+  columnWidth: _reactProptypes2.default.oneOfType([_reactProptypes2.default.number, _reactProptypes2.default.func]),
 
-  rowHeight: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.number, _react2.default.PropTypes.func]),
+  rowHeight: _reactProptypes2.default.oneOfType([_reactProptypes2.default.number, _reactProptypes2.default.func]),
 
-  renderRow: _react2.default.PropTypes.func,
+  renderRow: _reactProptypes2.default.func,
 
-  renderRows: _react2.default.PropTypes.func,
+  renderRows: _reactProptypes2.default.func,
 
-  renderCell: _react2.default.PropTypes.func,
+  renderCell: _reactProptypes2.default.func,
 
-  renderCells: _react2.default.PropTypes.func,
+  renderCells: _reactProptypes2.default.func,
 
-  onExtentsChange: _react2.default.PropTypes.func,
+  onExtentsChange: _reactProptypes2.default.func,
 
-  onScrollStart: _react2.default.PropTypes.func,
+  onScrollStart: _reactProptypes2.default.func,
 
-  onScroll: _react2.default.PropTypes.func,
+  onScroll: _reactProptypes2.default.func,
 
-  onScrollEnd: _react2.default.PropTypes.func,
+  onScrollEnd: _reactProptypes2.default.func,
 
-  scrollOptions: _react2.default.PropTypes.object
+  scrollOptions: _reactProptypes2.default.object
 };
 Grid.defaultProps = {
   preloadPixelsX: 0,
