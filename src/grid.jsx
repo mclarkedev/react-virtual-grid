@@ -5,7 +5,7 @@ import GridCalculator from './grid-calculator';
 import elementResizeDetector from 'element-resize-detector';
 import IScroll from 'iscroll/build/iscroll-probe';
 
-const MAX_SCROLLABLE_HEIGHT = 17895500;
+const MAX_SCROLLABLE_HEIGHT = navigator.userAgent.search('Firefox') > 0 ? 17895500 : Infinity;
 /* eslint-disable react/no-unused-prop-types */
 
 export default class Grid extends React.Component {
