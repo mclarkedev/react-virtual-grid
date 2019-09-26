@@ -40,7 +40,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
-var MAX_SCROLLABLE_HEIGHT = 17895500;
+var MAX_SCROLLABLE_HEIGHT = navigator.userAgent.search('Firefox') > 0 ? 17895500 : Infinity;
 /* eslint-disable react/no-unused-prop-types */
 
 var Grid = function (_React$Component) {
