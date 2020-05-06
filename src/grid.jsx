@@ -5,6 +5,7 @@ import GridCalculator from './grid-calculator';
 import elementResizeDetector from 'element-resize-detector';
 import IScroll from 'iscroll/build/iscroll-probe';
 
+const MAX_SCROLLABLE_HEIGHT = navigator.userAgent.search('Firefox') > 0 ? 17895500 : Infinity;
 /* eslint-disable react/no-unused-prop-types */
 
 export default class Grid extends React.Component {
@@ -634,13 +635,13 @@ export default class Grid extends React.Component {
 
   calculateScrollableHeight({estimatedRowHeight, rowCount}, cells) {
     if (!cells || !cells.rows.length) {
-      return estimatedRowHeight * rowCount;
+      return Math.min(estimatedRowHeight * rowCount, MAX_SCROLLABLE_HEIGHT);
     }
 
     const lastRow = cells.rows[cells.rows.length - 1];
     const height = lastRow[1] + lastRow[2];
 
-    return height + (((rowCount - 1) - lastRow[0]) * estimatedRowHeight);
+    return Math.min(height + (((rowCount - 1) - lastRow[0]) * estimatedRowHeight), MAX_SCROLLABLE_HEIGHT);
   }
 
   calculateFixedHeadersHeight(cells) {
