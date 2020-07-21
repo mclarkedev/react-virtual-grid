@@ -13,29 +13,29 @@
   position: absolute;
   overflow: hidden;
   border-bottom: 1px solid transparent;
-  border-left: 1px solid #1D9DF9;
+  border-left: 1px solid white;
   border-right: 1px solid transparent;
-  border-top: 1px solid #1D9DF9;
+  border-top: 1px solid white;
   padding: 3px;
   text-align: center;
   font-family: sans-serif;
-  padding-top: 23px;
-  font-size: 14px;
+  padding-top: 35px;
+  font-size: 40px;
   box-sizing: border-box;
-  color: #1D9DF9;
+  color: white;
 }
 .test_example_jsx-styles-bodyLeft {
   border-left: 1px solid transparent;
 }
 .test_example_jsx-styles-cellTopFirst {
-  border-top: 1px solid #1D9DF9;
+  border-top: 1px solid white;
 }
 .test_example_jsx-styles-cellTop {
-  border-top: 1px solid #1D9DF9;
+  border-top: 1px solid white;
 }
 .test_example_jsx-styles-cellLeft {
-  border-right: 1px solid #1D9DF9;
+  border-right: 1px solid white;
 }
 .test_example_jsx-styles-cellRight {
-  border-right: 1px solid #1D9DF9;
+  border-right: 1px solid white;
 }

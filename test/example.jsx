@@ -69,7 +69,7 @@ export default class Example extends React.Component {
 
     const {styles} = Example;
 
-    const backgroundColor = 'transparent';
+    const backgroundColor = 'blue';
 
     const isFixed = column === 0 || row === 0 || column === this.state.columnCount - 1 || row === this.state.rowCount - 1;
 
@@ -97,19 +97,29 @@ export default class Example extends React.Component {
                        isFixed && styles.fixed);
 
     const ucHex = ucd[leftToRightIdx]._0;
-    // TO
-    const ucName = ucd[leftToRightIdx]._2;
+    // TODO: Reload with headers: _1
+    // const ucName = ucd[leftToRightIdx]._2;
+
+    function rawHexToCharacter(x) {
+      const prefix = '0x';
+      const hex = `${prefix}${x}`;
+
+      const ucStringOutput = String.fromCodePoint(hex);
+      return ucStringOutput;
+    }
+
+    const uc = rawHexToCharacter(ucHex);
 
     return (
       <div key={cellKey}
            style={attrs}
-           className={classes}><b>{ucHex}</b><br />{ucName}</div>
+           className={classes}>{uc}</div>
     );
   }
 }
 
 // const color = {
-//   primary: '#1D9DF9'
+//   primary: 'white'
 // };
 
 const styles = cssInJS({
@@ -129,16 +139,16 @@ const styles = cssInJS({
     position: 'absolute',
     overflow: 'hidden',
     borderBottom: '1px solid transparent',
-    borderLeft: '1px solid #1D9DF9',
+    borderLeft: '1px solid white',
     borderRight: '1px solid transparent',
-    borderTop: '1px solid #1D9DF9',
+    borderTop: '1px solid white',
     padding: 3,
     textAlign: 'center',
     fontFamily: 'sans-serif',
-    paddingTop: 23,
-    fontSize: 14,
+    paddingTop: 35,
+    fontSize: 40,
     boxSizing: 'border-box',
-    color: '#1D9DF9'
+    color: 'white'
   },
 
   // fixed: {
@@ -150,25 +160,25 @@ const styles = cssInJS({
   },
 
   cellTopFirst: {
-    borderTop: '1px solid #1D9DF9'
+    borderTop: '1px solid white'
   },
 
   cellTop: {
-    borderTop: '1px solid #1D9DF9'
+    borderTop: '1px solid white'
     // borderBottom: '1px solid #F8A104',
     // borderLeft: '1px solid #F8A104'
   },
 
   cellLeft: {
-    borderRight: '1px solid #1D9DF9'
-    // borderTop: '1px solid #1D9DF9',
+    borderRight: '1px solid white'
+    // borderTop: '1px solid white',
     // borderLeft: '1px solid #F8A104'
   },
 
   cellRight: {
     // borderLeft: '1px solid #F8A104',
     // borderBottom: '1px solid #F8A104',
-    borderRight: '1px solid #1D9DF9'
+    borderRight: '1px solid white'
   }
 
   // cellBottomFixed: {
