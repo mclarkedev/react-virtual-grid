@@ -4,7 +4,10 @@ import Grid from '../src/grid';
 
 import ucd from './unicodeDatabase.json';
 
+const UCD_COUNT = Object.keys(ucd).length;
+
 const CELL_SIZE = 100;
+const COL_COUNT = 16;
 
 // function toColor(number) {
 //   const num = number >>> 0;
@@ -18,12 +21,13 @@ const CELL_SIZE = 100;
 
 // Our Unicode Grid -------------------------------------------------------------------------------
 export default class Example extends React.Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
-      columnCount: 16,
-      rowCount: ucd.length,
+      columnCount: COL_COUNT,
+      rowCount: UCD_COUNT / COL_COUNT,
       fixedLeftColumnCount: 0,
       fixedRightColumnCount: 0,
       fixedHeaderCount: 0,
@@ -96,7 +100,11 @@ export default class Example extends React.Component {
                        column === this.state.columnCount - 1 && styles.cellRight,
                        isFixed && styles.fixed);
 
-    const ucHex = ucd[leftToRightIdx]._0;
+    // const ucHex = ucd[leftToRightIdx]._0 || '0021'; // !
+
+    const ucObj = ucd[leftToRightIdx] || { _0: '0021' }; //
+    const ucHex = ucObj._0; // !
+
     // TODO: Reload with headers: _1
     // const ucName = ucd[leftToRightIdx]._2;
 
