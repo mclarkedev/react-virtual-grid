@@ -622,6 +622,7 @@ export default class Grid extends React.Component {
     return this._scrolling;
   }
 
+  // TODO: This calculation appears to produce a higher width than needed if width ?
   calculateScrollableWidth({estimatedColumnWidth, columnCount}, cells) {
     if (!cells || !cells.columns.length) {
       return estimatedColumnWidth * columnCount;

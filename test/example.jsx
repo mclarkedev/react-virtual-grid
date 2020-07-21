@@ -4,6 +4,8 @@ import Grid from '../src/grid';
 
 const CELL_SIZE = 64;
 
+const array = [ 1, 2, 3, 4, 5, 6, 7 ];
+
 function toColor(number) {
   const num = number >>> 0;
 
@@ -19,12 +21,12 @@ export default class Example extends React.Component {
     super(props);
 
     this.state = {
-      columnCount: 500000,
-      rowCount: 500000,
-      fixedLeftColumnCount: 1,
-      fixedRightColumnCount: 1,
-      fixedHeaderCount: 1,
-      fixedFooterCount: 1
+      columnCount: 16,
+      rowCount: 500,
+      fixedLeftColumnCount: 0,
+      fixedRightColumnCount: 0,
+      fixedHeaderCount: 0,
+      fixedFooterCount: 0
     };
   }
 
@@ -35,7 +37,7 @@ export default class Example extends React.Component {
     const columnWidth = CELL_SIZE;
 
     return (
-      <div className={cx('table-view', styles.container)}>
+      <div ref="table-view" className={cx('table-view', styles.container)}>
         <Grid ref={this.bindGrid}
               columnCount={this.state.columnCount}
               rowCount={this.state.rowCount}
@@ -74,8 +76,13 @@ export default class Example extends React.Component {
     const top = 0;
 
     const attrs = { left, top, width, height, backgroundColor };
+    const cellKey = rowIndex + '-' + colIndex;
 
-    const title = rowIndex + '-' + colIndex;
+    // Express our multiplier
+    const rowMultiplier = this.state.columnCount * rowIndex;
+    // Use the multiplier to calculate the left-to-right matrix sequence
+    const leftToRightIdx = rowMultiplier + colIndex;
+    // console.log(leftToRightIdx);
 
     const classes = cx(styles.cell,
                        column === 0 && styles.cellLeft,
@@ -89,12 +96,16 @@ export default class Example extends React.Component {
                        isFixed && styles.fixed);
 
     return (
-      <div key={rowIndex + '-' + colIndex}
+      <div key={cellKey}
            style={attrs}
-           className={classes}>{title}</div>
+           className={classes}>{leftToRightIdx}</div>
     );
   }
 }
+
+const color = {
+  primary: '#1D9DF9'
+};
 
 const styles = cssInJS({
   container: {
@@ -112,10 +123,10 @@ const styles = cssInJS({
   cell: {
     position: 'absolute',
     overflow: 'hidden',
-    borderBottom: '1px solid #1D9DF9',
+    borderBottom: '1px solid transparent',
     borderLeft: '1px solid #1D9DF9',
     borderRight: '1px solid transparent',
-    borderTop: '1px solid transparent',
+    borderTop: '1px solid #1D9DF9',
     padding: 3,
     textAlign: 'center',
     fontFamily: 'sans-serif',
@@ -125,49 +136,50 @@ const styles = cssInJS({
     color: '#1D9DF9'
   },
 
-  fixed: {
-    color: '#F8A104'
-  },
+  // fixed: {
+  //   color: '#F8A104'
+  // },
 
   bodyLeft: {
     borderLeft: '1px solid transparent'
   },
 
   cellTopFirst: {
-    borderBottom: '1px solid #F8A104'
+    borderTop: '1px solid #1D9DF9'
   },
 
   cellTop: {
-    borderBottom: '1px solid #F8A104',
-    borderLeft: '1px solid #F8A104'
+    borderTop: '1px solid #1D9DF9'
+    // borderBottom: '1px solid #F8A104',
+    // borderLeft: '1px solid #F8A104'
   },
 
   cellLeft: {
-    borderRight: '1px solid #F8A104',
-    borderBottom: '1px solid #F8A104',
-    borderLeft: '1px solid #F8A104'
+    borderRight: '1px solid #1D9DF9'
+    // borderTop: '1px solid #1D9DF9',
+    // borderLeft: '1px solid #F8A104'
   },
 
   cellRight: {
-    borderLeft: '1px solid #F8A104',
-    borderBottom: '1px solid #F8A104',
-    borderRight: '1px solid #F8A104'
-  },
-
-  cellBottomFixed: {
-    borderTop: '1px solid #F8A104'
-  },
-
-  cellBottomFirst: {
-    borderTop: '1px solid #F8A104',
-    borderBottom: '1px solid transparent'
-  },
-
-  cellBottom: {
-    borderTop: '1px solid #F8A104',
-    borderLeft: '1px solid #F8A104',
-    borderBottom: '1px solid transparent'
+    // borderLeft: '1px solid #F8A104',
+    // borderBottom: '1px solid #F8A104',
+    borderRight: '1px solid #1D9DF9'
   }
+
+  // cellBottomFixed: {
+  //   borderTop: '1px solid #F8A104'
+  // },
+
+  // cellBottomFirst: {
+  //   borderTop: '1px solid #F8A104',
+  //   borderBottom: '1px solid transparent'
+  // },
+
+  // cellBottom: {
+  //   borderTop: '1px solid #F8A104',
+  //   borderLeft: '1px solid #F8A104',
+  //   borderBottom: '1px solid transparent'
+  // }
 });
 
 Example.styles = styles;

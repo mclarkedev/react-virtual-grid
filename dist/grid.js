@@ -621,6 +621,7 @@ var Grid = function (_React$Component) {
       key: 'grid-row-resize-guide' });
   };
 
+  // TODO: This calculation appears to produce a higher width than needed if width ?
   Grid.prototype.calculateScrollableWidth = function calculateScrollableWidth(_ref, cells) {
     var estimatedColumnWidth = _ref.estimatedColumnWidth,
         columnCount = _ref.columnCount;
