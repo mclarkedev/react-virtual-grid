@@ -65,6 +65,7 @@
     "classnames": "^2.2.5",
     "element-resize-detector": "^1.1.9",
     "iscroll": "github:zhm/iscroll#larger-scrollbars-with-pointer-events",
+    "lunr": "^2.3.8",
     "react-proptypes": "^1.0.0"
   },
   "keywords": [

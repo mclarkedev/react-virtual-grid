@@ -1,7 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
-import Grid from '../src/grid';
+import lunr from 'lunr';
 
+import Grid from '../src/grid';
 import ucd from './unicodeDatabase.json';
 
 const UCD_COUNT = Object.keys(ucd).length;
@@ -19,6 +20,19 @@ const COL_COUNT = 16;
 //   return [ r, g, b ];
 // }
 
+// Our Lunr Search --------------------------------------------------------------------------------
+
+const idx = lunr(function() {
+  this.ref('_0');
+  this.field('_0');
+  this.field('_2');
+
+  ucd.forEach(function(x) {
+    this.add(x);
+  }, this);
+  console.log(ucd.slice(0, 20));
+});
+
 // Our Unicode Grid -------------------------------------------------------------------------------
 export default class Example extends React.Component {
 
@@ -31,9 +45,14 @@ export default class Example extends React.Component {
       fixedLeftColumnCount: 0,
       fixedRightColumnCount: 0,
       fixedHeaderCount: 0,
-      fixedFooterCount: 0
+      fixedFooterCount: 0,
+      userInput: ''
     };
   }
+
+  handleChange = event => {
+    this.setState({ userInput: event.target.value });
+  };
 
   render() {
     const {styles} = Example;
@@ -41,20 +60,31 @@ export default class Example extends React.Component {
     const rowHeight = CELL_SIZE;
     const columnWidth = CELL_SIZE;
 
+    const query = this.state.userInput === '' ? '0000' : this.state.userInput;
+
+    console.log(idx.search(query));
+
     return (
       <div ref="table-view" className={cx('table-view', styles.container)}>
-        <Grid ref={this.bindGrid}
-              columnCount={this.state.columnCount}
-              rowCount={this.state.rowCount}
-              estimatedColumnWidth={columnWidth}
-              estimatedRowHeight={rowHeight}
-              fixedLeftColumnCount={this.state.fixedLeftColumnCount}
-              fixedRightColumnCount={this.state.fixedRightColumnCount}
-              fixedHeaderCount={this.state.fixedHeaderCount}
-              fixedFooterCount={this.state.fixedFooterCount}
-              renderCell={this.renderCell}
-              columnWidth={this.calculateColumnWidth}
-              rowHeight={this.calculateRowHeight} />
+        <input
+          style={{ position: 'absolute', zIndex: '9', backgroundColor: 'white' }}
+          type="text"
+          name="username"
+          value={this.state.userInput}
+          onChange={this.handleChange} />
+        <Grid
+          ref={this.bindGrid}
+          columnCount={this.state.columnCount}
+          rowCount={this.state.rowCount}
+          estimatedColumnWidth={columnWidth}
+          estimatedRowHeight={rowHeight}
+          fixedLeftColumnCount={this.state.fixedLeftColumnCount}
+          fixedRightColumnCount={this.state.fixedRightColumnCount}
+          fixedHeaderCount={this.state.fixedHeaderCount}
+          fixedFooterCount={this.state.fixedFooterCount}
+          renderCell={this.renderCell}
+          columnWidth={this.calculateColumnWidth}
+          rowHeight={this.calculateRowHeight} />
       </div>
     );
   }
