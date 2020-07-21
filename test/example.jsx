@@ -2,27 +2,28 @@ import React from 'react';
 import cx from 'classnames';
 import Grid from '../src/grid';
 
-const CELL_SIZE = 64;
+import ucd from './unicodeDatabase.json';
 
-const array = [ 1, 2, 3, 4, 5, 6, 7 ];
+const CELL_SIZE = 100;
 
-function toColor(number) {
-  const num = number >>> 0;
+// function toColor(number) {
+//   const num = number >>> 0;
 
-  const b = num & 0xFF;
-  const g = (num & 0xFF00) >>> 8;
-  const r = (num & 0xFF0000) >>> 16;
+//   const b = num & 0xFF;
+//   const g = (num & 0xFF00) >>> 8;
+//   const r = (num & 0xFF0000) >>> 16;
 
-  return [ r, g, b ];
-}
+//   return [ r, g, b ];
+// }
 
+// Our Unicode Grid -------------------------------------------------------------------------------
 export default class Example extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       columnCount: 16,
-      rowCount: 500,
+      rowCount: ucd.length,
       fixedLeftColumnCount: 0,
       fixedRightColumnCount: 0,
       fixedHeaderCount: 0,
@@ -95,17 +96,21 @@ export default class Example extends React.Component {
                        column === this.state.columnCount - 1 && styles.cellRight,
                        isFixed && styles.fixed);
 
+    const ucHex = ucd[leftToRightIdx]._0;
+    // TO
+    const ucName = ucd[leftToRightIdx]._2;
+
     return (
       <div key={cellKey}
            style={attrs}
-           className={classes}>{leftToRightIdx}</div>
+           className={classes}><b>{ucHex}</b><br />{ucName}</div>
     );
   }
 }
 
-const color = {
-  primary: '#1D9DF9'
-};
+// const color = {
+//   primary: '#1D9DF9'
+// };
 
 const styles = cssInJS({
   container: {
@@ -131,7 +136,7 @@ const styles = cssInJS({
     textAlign: 'center',
     fontFamily: 'sans-serif',
     paddingTop: 23,
-    fontSize: 10,
+    fontSize: 14,
     boxSizing: 'border-box',
     color: '#1D9DF9'
   },
