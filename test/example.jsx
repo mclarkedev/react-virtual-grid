@@ -3,12 +3,15 @@ import cx from 'classnames';
 import lunr from 'lunr';
 
 import Grid from '../src/grid';
-import ucd from './unicodeDatabase.json';
+import unicodeJSON from './unicodeDatabase.json';
+
+const ucd = unicodeJSON;
 
 const UCD_COUNT = Object.keys(ucd).length;
-
 const CELL_SIZE = 100;
 const COL_COUNT = 16;
+
+console.info('Grid initialized: ', UCD_COUNT + ' x ' + COL_COUNT);
 
 // function toColor(number) {
 //   const num = number >>> 0;
@@ -30,7 +33,8 @@ const idx = lunr(function() {
   ucd.forEach(function(x) {
     this.add(x);
   }, this);
-  console.log(ucd.slice(0, 20));
+  console.info('UCD indexed for search');
+  console.info(ucd.slice(0, 20));
 });
 
 // Our Unicode Grid -------------------------------------------------------------------------------
@@ -46,7 +50,8 @@ export default class Example extends React.Component {
       fixedRightColumnCount: 0,
       fixedHeaderCount: 0,
       fixedFooterCount: 0,
-      userInput: ''
+      userInput: '',
+      results: null
     };
   }
 
@@ -62,7 +67,31 @@ export default class Example extends React.Component {
 
     const query = this.state.userInput === '' ? '0000' : this.state.userInput;
 
-    console.log(idx.search(query));
+    console.log('Search Response\n', idx.search(query));
+
+    const searchRes = idx.search(query);
+
+    // this.results = idx.search(query).map(({ ref }) => {
+    //   return ...ucd[ref];
+    // });
+
+    this.results = searchRes.map(({ref}) => {
+      const filteredHit = ucd.filter((e) => {
+        return e._0 === ref;
+      });
+
+      // TODO: Extra array appear here, removing with [0]
+      return filteredHit[0];
+    });
+
+    console.log('Results\n', this.results);
+
+    // const ucdFiltered = ucd.filter(x => searchRes.ref.includes(x._0));
+    // console.log('UCD Filtered\n', ucdFiltered);
+
+    // const filteredUcd = ucd.records.filter((itm) => {
+    //   return empIds.indexOf(itm.empid) > -1;
+    // });
 
     return (
       <div ref="table-view" className={cx('table-view', styles.container)}>
@@ -132,7 +161,10 @@ export default class Example extends React.Component {
 
     // const ucHex = ucd[leftToRightIdx]._0 || '0021'; // !
 
-    const ucObj = ucd[leftToRightIdx] || { _0: '0021' }; //
+    // Flip data in display if search results or not
+    const displayData = this.results || ucd;
+
+    const ucObj = displayData[leftToRightIdx] || { _0: '0021' }; //
     const ucHex = ucObj._0; // !
 
     // TODO: Reload with headers: _1
