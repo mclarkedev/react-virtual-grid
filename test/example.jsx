@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { setState } from 'react';
 import cx from 'classnames';
 import lunr from 'lunr';
 
@@ -10,6 +10,7 @@ const ucd = unicodeJSON;
 const UCD_COUNT = Object.keys(ucd).length;
 const CELL_SIZE = 100;
 const COL_COUNT = 16;
+const GRID_CELL_MIN = 32;
 
 console.info('Grid initialized: ', UCD_COUNT + ' x ' + COL_COUNT);
 
@@ -51,11 +52,49 @@ export default class Example extends React.Component {
       fixedHeaderCount: 0,
       fixedFooterCount: 0,
       userInput: '',
-      results: null
+      results: ucd,
+      resultsCount: null
     };
   }
 
+  componentDidUpdate() {
+    console.log('User Input After Mount\n', this.state.userInput);
+    console.log('Results After Mount\n', this.state.results);
+  }
+
+  // handleNoInput = () => {
+  //   this.results = ucd;
+  // };
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    // console.log('User input\n', this.userInput);
+
+    // If no query then reset data to all ucd
+    if (this.state.userInput === '') {
+      console.log("User Input is ''");
+      this.setState({ results: ucd });
+    } else {
+      // If query then search Lunr and set results to UCD hits
+      const searchResults = idx.search(this.state.userInput);
+
+      // Use Lunr index to filter the UCD
+      const ucdResults = searchResults.map(({ref}) => {
+        const filteredHit = ucd.filter((e) => {
+          return e._0 === ref;
+        });
+
+        // TODO: Extra array appear here, removing with [0]
+        return filteredHit[0];
+      });
+
+      this.setState({ results: ucdResults });
+    }
+  }
+
   handleChange = event => {
+    // Set the user input from DOM event
     this.setState({ userInput: event.target.value });
   };
 
@@ -65,55 +104,37 @@ export default class Example extends React.Component {
     const rowHeight = CELL_SIZE;
     const columnWidth = CELL_SIZE;
 
-    const query = this.state.userInput === '' ? '0000' : this.state.userInput;
-
-    console.log('Search Response\n', idx.search(query));
-
-    const searchRes = idx.search(query);
-
-    // this.results = idx.search(query).map(({ ref }) => {
-    //   return ...ucd[ref];
-    // });
-
-    this.results = searchRes.map(({ref}) => {
-      const filteredHit = ucd.filter((e) => {
-        return e._0 === ref;
-      });
-
-      // TODO: Extra array appear here, removing with [0]
-      return filteredHit[0];
-    });
-
-    console.log('Results\n', this.results);
-
-    // const ucdFiltered = ucd.filter(x => searchRes.ref.includes(x._0));
-    // console.log('UCD Filtered\n', ucdFiltered);
-
-    // const filteredUcd = ucd.records.filter((itm) => {
-    //   return empIds.indexOf(itm.empid) > -1;
-    // });
+    // const query = this.state.userInput === '' ? '0000' : this.state.userInput;
+    // console.log('UCD Results\n', this.results);
 
     return (
-      <div ref="table-view" className={cx('table-view', styles.container)}>
-        <input
-          style={{ position: 'absolute', zIndex: '9', backgroundColor: 'white' }}
-          type="text"
-          name="username"
-          value={this.state.userInput}
-          onChange={this.handleChange} />
+      <div
+        // ref="table-view"
+        className={cx('table-view', styles.container)}>
+        <form
+          onSubmit={this.handleSubmit}
+          style={{ position: 'absolute', zIndex: '9', backgroundColor: 'white' }} >
+          <input
+            type="search"
+            name="q"
+            value={this.state.userInput}
+            onChange={this.handleChange} />
+          <input
+            type="submit" />
+        </form>
         <Grid
-          ref={this.bindGrid}
-          columnCount={this.state.columnCount}
-          rowCount={this.state.rowCount}
-          estimatedColumnWidth={columnWidth}
-          estimatedRowHeight={rowHeight}
-          fixedLeftColumnCount={this.state.fixedLeftColumnCount}
-          fixedRightColumnCount={this.state.fixedRightColumnCount}
-          fixedHeaderCount={this.state.fixedHeaderCount}
-          fixedFooterCount={this.state.fixedFooterCount}
-          renderCell={this.renderCell}
-          columnWidth={this.calculateColumnWidth}
-          rowHeight={this.calculateRowHeight} />
+            ref={this.bindGrid}
+            columnCount={this.state.columnCount}
+            rowCount={this.state.rowCount}
+            estimatedColumnWidth={columnWidth}
+            estimatedRowHeight={rowHeight}
+            fixedLeftColumnCount={this.state.fixedLeftColumnCount}
+            fixedRightColumnCount={this.state.fixedRightColumnCount}
+            fixedHeaderCount={this.state.fixedHeaderCount}
+            fixedFooterCount={this.state.fixedFooterCount}
+            renderCell={this.renderCell}
+            columnWidth={this.calculateColumnWidth}
+            rowHeight={this.calculateRowHeight} />
       </div>
     );
   }
@@ -132,7 +153,7 @@ export default class Example extends React.Component {
 
     const {styles} = Example;
 
-    const backgroundColor = 'blue';
+    const backgroundColor = 'black';
 
     const isFixed = column === 0 || row === 0 || column === this.state.columnCount - 1 || row === this.state.rowCount - 1;
 
@@ -161,10 +182,8 @@ export default class Example extends React.Component {
 
     // const ucHex = ucd[leftToRightIdx]._0 || '0021'; // !
 
-    // Flip data in display if search results or not
-    const displayData = this.results || ucd;
-
-    const ucObj = displayData[leftToRightIdx] || { _0: '0021' }; //
+    // Results state flips between ucd and post-search results
+    const ucObj = this.state.results[leftToRightIdx] || { _0: '0021' }; //
     const ucHex = ucObj._0; // !
 
     // TODO: Reload with headers: _1
