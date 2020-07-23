@@ -58,18 +58,12 @@ export default class Example extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('User Input After Mount\n', this.state.userInput);
-    console.log('Results After Mount\n', this.state.results);
+    console.log(this.state.userInput, this.state.results);
+    console.log(this.state.results.length);
   }
-
-  // handleNoInput = () => {
-  //   this.results = ucd;
-  // };
 
   handleSubmit = event => {
     event.preventDefault();
-
-    // console.log('User input\n', this.userInput);
 
     // If no query then reset data to all ucd
     if (this.state.userInput === '') {
@@ -89,7 +83,10 @@ export default class Example extends React.Component {
         return filteredHit[0];
       });
 
-      this.setState({ results: ucdResults });
+      const rawRowCount = (ucdResults.length / COL_COUNT)
+      const newRowCount = rawRowCount < 1 ? 1 : rawRowCount
+
+      this.setState({ results: ucdResults, rowCount: newRowCount });
     }
   }
 
@@ -103,9 +100,6 @@ export default class Example extends React.Component {
 
     const rowHeight = CELL_SIZE;
     const columnWidth = CELL_SIZE;
-
-    // const query = this.state.userInput === '' ? '0000' : this.state.userInput;
-    // console.log('UCD Results\n', this.results);
 
     return (
       <div
@@ -153,7 +147,7 @@ export default class Example extends React.Component {
 
     const {styles} = Example;
 
-    const backgroundColor = 'black';
+    const backgroundColor = 'white';
 
     const isFixed = column === 0 || row === 0 || column === this.state.columnCount - 1 || row === this.state.rowCount - 1;
 
@@ -237,7 +231,7 @@ const styles = cssInJS({
     paddingTop: 35,
     fontSize: 40,
     boxSizing: 'border-box',
-    color: 'white'
+    color: 'black'
   },
 
   // fixed: {
