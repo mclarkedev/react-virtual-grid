@@ -4,39 +4,37 @@ import lunr from 'lunr';
 
 import Grid from '../src/grid';
 import unicodeJSON from './unicodeDatabase.json';
+import lunrIndex from './index.json';
 
 const ucd = unicodeJSON;
 
 const UCD_COUNT = Object.keys(ucd).length;
-const CELL_SIZE = 100;
-const COL_COUNT = 16;
+const GRID_CELL_SIZE = 100;
+const GRID_COL_COUNT = 16;
 const GRID_CELL_MIN = 32;
 
-console.info('Grid initialized: ', UCD_COUNT + ' x ' + COL_COUNT);
+const UCD_ROW_COUNT = UCD_COUNT / GRID_COL_COUNT;
 
-// function toColor(number) {
-//   const num = number >>> 0;
+console.info('Grid initialized: ', UCD_ROW_COUNT + ' x ' + GRID_COL_COUNT + ' with ' + UCD_COUNT + ' cells.');
 
-//   const b = num & 0xFF;
-//   const g = (num & 0xFF00) >>> 8;
-//   const r = (num & 0xFF0000) >>> 16;
+// Index Lunr Search --------------------------------------------------------------------------------
 
-//   return [ r, g, b ];
-// }
+// const idx = lunr(function() {
+//   this.ref('_0');
+//   this.field('_0');
+//   this.field('_2');
 
-// Our Lunr Search --------------------------------------------------------------------------------
+//   ucd.forEach(function(x) {
+//     this.add(x);
+//   }, this);
+//   console.info('UCD indexed for search');
+//   console.info(ucd.slice(0, 20));
+// });
 
-const idx = lunr(function() {
-  this.ref('_0');
-  this.field('_0');
-  this.field('_2');
+// var serializedIdx = JSON.stringify(idx);
+// console.log(serializedIdx);
 
-  ucd.forEach(function(x) {
-    this.add(x);
-  }, this);
-  console.info('UCD indexed for search');
-  console.info(ucd.slice(0, 20));
-});
+const idx = lunr.Index.load(lunrIndex);
 
 // Our Unicode Grid -------------------------------------------------------------------------------
 export default class Example extends React.Component {
@@ -45,8 +43,8 @@ export default class Example extends React.Component {
     super(props);
 
     this.state = {
-      columnCount: COL_COUNT,
-      rowCount: UCD_COUNT / COL_COUNT,
+      columnCount: GRID_COL_COUNT,
+      rowCount: UCD_ROW_COUNT,
       fixedLeftColumnCount: 0,
       fixedRightColumnCount: 0,
       fixedHeaderCount: 0,
@@ -68,7 +66,7 @@ export default class Example extends React.Component {
     // If no query then reset data to all ucd
     if (this.state.userInput === '') {
       console.log("User Input is ''");
-      this.setState({ results: ucd });
+      this.setState({ results: ucd, rowCount: UCD_ROW_COUNT });
     } else {
       // If query then search Lunr and set results to UCD hits
       const searchResults = idx.search(this.state.userInput);
@@ -83,8 +81,8 @@ export default class Example extends React.Component {
         return filteredHit[0];
       });
 
-      const rawRowCount = (ucdResults.length / COL_COUNT)
-      const newRowCount = rawRowCount < 1 ? 1 : rawRowCount
+      const rawRowCount = (ucdResults.length / GRID_COL_COUNT);
+      const newRowCount = rawRowCount < 1 ? 1 : rawRowCount;
 
       this.setState({ results: ucdResults, rowCount: newRowCount });
     }
@@ -98,8 +96,8 @@ export default class Example extends React.Component {
   render() {
     const {styles} = Example;
 
-    const rowHeight = CELL_SIZE;
-    const columnWidth = CELL_SIZE;
+    const rowHeight = GRID_CELL_SIZE;
+    const columnWidth = GRID_CELL_SIZE;
 
     return (
       <div
@@ -114,7 +112,8 @@ export default class Example extends React.Component {
             value={this.state.userInput}
             onChange={this.handleChange} />
           <input
-            type="submit" />
+            type="submit"
+            value="search" />
         </form>
         <Grid
             ref={this.bindGrid}
@@ -134,11 +133,11 @@ export default class Example extends React.Component {
   }
 
   calculateColumnWidth = (column) => {
-    return CELL_SIZE;
+    return GRID_CELL_SIZE;
   }
 
   calculateRowHeight = (row) => {
-    return CELL_SIZE;
+    return GRID_CELL_SIZE;
   }
 
   renderCell = (pane, row, rowData, column, columnData) => {
