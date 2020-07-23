@@ -1,6 +1,7 @@
 import React, { setState } from 'react';
 import cx from 'classnames';
 import lunr from 'lunr';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 import Grid from '../src/grid';
 import unicodeJSON from './unicodeDatabase.json';
@@ -11,7 +12,7 @@ const ucd = unicodeJSON;
 const UCD_COUNT = Object.keys(ucd).length;
 const GRID_CELL_SIZE = 100;
 const GRID_COL_COUNT = 16;
-const GRID_CELL_MIN = 32;
+// const GRID_CELL_MIN = 32;
 
 const UCD_ROW_COUNT = UCD_COUNT / GRID_COL_COUNT;
 
@@ -49,14 +50,15 @@ export default class Example extends React.Component {
       fixedRightColumnCount: 0,
       fixedHeaderCount: 0,
       fixedFooterCount: 0,
-      userInput: '',
+      userSearchInput: '',
+      userColInput: GRID_COL_COUNT,
       results: ucd,
       resultsCount: null
     };
   }
 
   componentDidUpdate() {
-    console.log(this.state.userInput, this.state.results);
+    console.log(this.state.userSearchInput, this.state.results);
     console.log(this.state.results.length);
   }
 
@@ -64,12 +66,12 @@ export default class Example extends React.Component {
     event.preventDefault();
 
     // If no query then reset data to all ucd
-    if (this.state.userInput === '') {
+    if (this.state.userSearchInput === '') {
       console.log("User Input is ''");
       this.setState({ results: ucd, rowCount: UCD_ROW_COUNT });
     } else {
       // If query then search Lunr and set results to UCD hits
-      const searchResults = idx.search(this.state.userInput);
+      const searchResults = idx.search(this.state.userSearchInput);
 
       // Use Lunr index to filter the UCD
       const ucdResults = searchResults.map(({ref}) => {
@@ -81,7 +83,7 @@ export default class Example extends React.Component {
         return filteredHit[0];
       });
 
-      const rawRowCount = (ucdResults.length / GRID_COL_COUNT);
+      const rawRowCount = (ucdResults.length / this.state.columnCount);
       const newRowCount = rawRowCount < 1 ? 1 : rawRowCount;
 
       this.setState({ results: ucdResults, rowCount: newRowCount });
@@ -89,9 +91,23 @@ export default class Example extends React.Component {
   }
 
   handleChange = event => {
-    // Set the user input from DOM event
-    this.setState({ userInput: event.target.value });
+    this.setState({ userSearchInput: event.target.value });
   };
+
+  handleColChange = event => {
+    this.setState({ userColInput: event.target.value });
+  };
+
+  handleColSubmit = event => {
+    event.preventDefault();
+
+    this.setState({ columnCount: this.state.userColInput });
+  }
+
+  // handleColChange = event => {
+  //   // Set the user input from DOM event
+  //   this.setState({ userInput: event.target.value });
+  // };
 
   render() {
     const {styles} = Example;
@@ -115,19 +131,35 @@ export default class Example extends React.Component {
             type="submit"
             value="search" />
         </form>
-        <Grid
-            ref={this.bindGrid}
-            columnCount={this.state.columnCount}
-            rowCount={this.state.rowCount}
-            estimatedColumnWidth={columnWidth}
-            estimatedRowHeight={rowHeight}
-            fixedLeftColumnCount={this.state.fixedLeftColumnCount}
-            fixedRightColumnCount={this.state.fixedRightColumnCount}
-            fixedHeaderCount={this.state.fixedHeaderCount}
-            fixedFooterCount={this.state.fixedFooterCount}
-            renderCell={this.renderCell}
-            columnWidth={this.calculateColumnWidth}
-            rowHeight={this.calculateRowHeight} />
+        <form
+          onSubmit={this.handleColSubmit}
+          style={{ position: 'absolute', right: 0, zIndex: '9', backgroundColor: 'white' }} >
+          <input
+            type="text"
+            name="grid"
+            value={this.state.userColInput}
+            onChange={this.handleColChange} />
+          <input
+            type="submit"
+            value="change grid" />
+        </form>
+        <AutoSizer>
+          {({height, width}) => (
+            <Grid
+              ref={this.bindGrid}
+              columnCount={this.state.columnCount}
+              rowCount={this.state.rowCount}
+              estimatedColumnWidth={columnWidth}
+              estimatedRowHeight={rowHeight}
+              fixedLeftColumnCount={this.state.fixedLeftColumnCount}
+              fixedRightColumnCount={this.state.fixedRightColumnCount}
+              fixedHeaderCount={this.state.fixedHeaderCount}
+              fixedFooterCount={this.state.fixedFooterCount}
+              renderCell={this.renderCell}
+              columnWidth={this.calculateColumnWidth}
+              rowHeight={this.calculateRowHeight} />
+        )}
+        </AutoSizer>
       </div>
     );
   }
@@ -206,7 +238,7 @@ export default class Example extends React.Component {
 
 const styles = cssInJS({
   container: {
-    backgroundColor: 'black',
+    backgroundColor: 'white',
     position: 'absolute',
     left: 0,
     top: 0,
