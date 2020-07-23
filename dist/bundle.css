@@ -13,9 +13,9 @@
   position: absolute;
   overflow: hidden;
   border-bottom: 1px solid transparent;
-  border-left: 1px solid white;
+  border-left: 1px solid lightgray;
   border-right: 1px solid transparent;
-  border-top: 1px solid white;
+  border-top: 1px solid lightgray;
   padding: 3px;
   text-align: center;
   font-family: sans-serif;
@@ -28,14 +28,14 @@
   border-left: 1px solid transparent;
 }
 .test_example_jsx-styles-cellTopFirst {
-  border-top: 1px solid white;
+  border-top: 1px solid lightgray;
 }
 .test_example_jsx-styles-cellTop {
-  border-top: 1px solid white;
+  border-top: 1px solid lightgray;
 }
 .test_example_jsx-styles-cellLeft {
-  border-right: 1px solid white;
+  border-right: 1px solid lightgray;
 }
 .test_example_jsx-styles-cellRight {
-  border-right: 1px solid white;
+  border-right: 1px solid lightgray;
 }

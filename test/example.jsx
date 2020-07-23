@@ -221,9 +221,9 @@ const styles = cssInJS({
     position: 'absolute',
     overflow: 'hidden',
     borderBottom: '1px solid transparent',
-    borderLeft: '1px solid white',
+    borderLeft: '1px solid lightgray',
     borderRight: '1px solid transparent',
-    borderTop: '1px solid white',
+    borderTop: '1px solid lightgray',
     padding: 3,
     textAlign: 'center',
     fontFamily: 'sans-serif',
@@ -242,17 +242,17 @@ const styles = cssInJS({
   },
 
   cellTopFirst: {
-    borderTop: '1px solid white'
+    borderTop: '1px solid lightgray'
   },
 
   cellTop: {
-    borderTop: '1px solid white'
+    borderTop: '1px solid lightgray'
     // borderBottom: '1px solid #F8A104',
     // borderLeft: '1px solid #F8A104'
   },
 
   cellLeft: {
-    borderRight: '1px solid white'
+    borderRight: '1px solid lightgray'
     // borderTop: '1px solid white',
     // borderLeft: '1px solid #F8A104'
   },
@@ -260,7 +260,7 @@ const styles = cssInJS({
   cellRight: {
     // borderLeft: '1px solid #F8A104',
     // borderBottom: '1px solid #F8A104',
-    borderRight: '1px solid white'
+    borderRight: '1px solid lightgray'
   }
 
   // cellBottomFixed: {
