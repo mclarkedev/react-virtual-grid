@@ -3035,6 +3035,20 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
+lunr-index-build@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/lunr-index-build/-/lunr-index-build-0.0.1.tgz#e9344ef603d2711c6bac66f2e00ba54b6d554ae3"
+  integrity sha512-2of5kDM1ymv58pnq/gZpOzH6OgNH08M5o8mSg5nkCw0ywnF7jOYyehrFMZ6OaBuWT+PRTYoYfe56MeOYII5Urg==
+  dependencies:
+    lunr ">= 0.3.0"
+    optimist "0.4.x"
+    progress "0.1.x"
+
+"lunr@>= 0.3.0", lunr@^2.3.8:
+  version "2.3.9"
+  resolved "https://registry.yarnpkg.com/lunr/-/lunr-2.3.9.tgz#18b123142832337dd6e964df1a5a7707b25d35e1"
+  integrity sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==
+
 make-dir@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-1.1.0.tgz#19b4369fe48c116f53c2af95ad102c0e39e85d51"
@@ -3346,6 +3360,13 @@ opn@5.1.0:
   dependencies:
     is-wsl "^1.1.0"
 
+optimist@0.4.x:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.4.0.tgz#cb8ec37f2fe3aa9864cb67a275250e7e19620a25"
+  integrity sha512-v/ueFqighwEQeAnw8ZJofuEsHDvAiUGyfojtJdKurxd4KUanznxvK9hJocaxWpn+nAAbxTA4qfh7orYHgNZIWA==
+  dependencies:
+    wordwrap "~0.0.2"
+
 optimist@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
@@ -3554,6 +3575,11 @@ process@~0.11.0:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
 
+progress@0.1.x:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/progress/-/progress-0.1.0.tgz#dbec0c99fbc2f7b9623e133163be6361d5e9e447"
+  integrity sha512-BO9u0nR/2r+YDyMCEPbodE2iW5xt5eF4C+NaPAKGWx6+vftH+ROUDvI88eELayOgN4bG9w0hH4HGrb5ayLezrg==
+
 progress@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/progress/-/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
@@ -3704,6 +3730,11 @@ react-transition-group@^1.2.0:
     loose-envify "^1.3.1"
     prop-types "^15.5.6"
     warning "^3.0.0"
+
+react-virtualized-auto-sizer@^1.0.2:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.7.tgz#bfb8414698ad1597912473de3e2e5f82180c1195"
+  integrity sha512-Mxi6lwOmjwIjC1X4gABXMJcKHsOo0xWl3E3ugOgufB8GJU+MqrtY35aBuvCYv/razQ1Vbp7h1gWJjGjoNN5pmA==
 
 react@^15.3.2:
   version "15.6.2"
@@ -4422,8 +4453,9 @@ typedarray@^0.0.6, typedarray@~0.0.5:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
 ua-parser-js@^0.7.9:
-  version "0.7.17"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.17.tgz#e9ec5f9498b9ec910e7ae3ac626a805c4d09ecac"
+  version "0.7.33"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.33.tgz#1d04acb4ccef9293df6f70f2c3d22f3030d8b532"
+  integrity sha512-s8ax/CeZdK9R/56Sui0WM6y9OFREJarMRHqLB2EwkovemBxNQ+Bqu8GAsUnVcXKgphb++ghr/B2BZx4mahujPw==
 
 uglify-js@2.x.x, uglify-js@^2.6, uglify-js@^2.6.1, uglify-js@^2.7.3:
   version "2.8.29"
